@@ -1,27 +1,19 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
-	"strconv"
 
 	"github.com/swintch/mdw-smarty-calc-lib2/calc"
+	"github.com/swintch/mdw-smarty-calc-lib2/handler"
 )
 
 func main() {
 	calculator := &calc.Addition{}
-	calcValue1 := ParsInt(os.Args[1])
-	calcValue2 := ParsInt(os.Args[2])
-	_, err := fmt.Println(calculator.Calculate(calcValue1, calcValue2))
+	handlerObj := handler.NewHandler(calculator, os.Stdout)
+	err := handlerObj.Handle(os.Args[1:])
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-}
 
-func ParsInt(stringValue string) int {
-	integerValue, err := strconv.Atoi(stringValue)
-	if err != nil {
-		panic(err)
-	}
-	return integerValue
 }
